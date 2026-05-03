@@ -13,7 +13,7 @@ public class PessoaController : ControllerBase {
 
         var rabbit = new CriaMensagemRabbitMQ();
 
-        rabbit.CriaMensagem();
+        rabbit.CriaMensagem(pessoa.Nome);
 
         return Ok(pessoa);
     }

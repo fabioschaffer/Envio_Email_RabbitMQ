@@ -7,7 +7,7 @@ public class CriaMensagemRabbitMQ {
 
     const string QUEUE_NAME = "fila_1";
 
-    public async Task CriaMensagem() {
+    public async Task CriaMensagem(string email) {
 
         var factory = new ConnectionFactory { HostName = "localhost" };
         using var connection = await factory.CreateConnectionAsync();
@@ -16,7 +16,7 @@ public class CriaMensagemRabbitMQ {
         await channel.QueueDeclareAsync(queue: QUEUE_NAME, durable: true, exclusive: false, autoDelete: false,
             arguments: new Dictionary<string, object?> { { "x-queue-type", "quorum" } });
 
-        const string message = "Hello World!";
+        string message = email;
         var body = Encoding.UTF8.GetBytes(message);
 
         await channel.BasicPublishAsync(exchange: string.Empty, routingKey: QUEUE_NAME, body: body);
